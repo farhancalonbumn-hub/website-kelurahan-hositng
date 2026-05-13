@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Carbon\Carbon;
 use App\Models\Notifikasi;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\URL; // ✅ TAMBAH INI
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -16,7 +17,10 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        Carbon::setLocale('id'); // ✅ tetap
+        Carbon::setLocale('id'); // tetap
+
+        // 🔒 FORCE HTTPS (IMPORTANT)
+        URL::forceScheme('https');
 
         // 🔔 NOTIF GLOBAL
         View::composer('*', function ($view) {
