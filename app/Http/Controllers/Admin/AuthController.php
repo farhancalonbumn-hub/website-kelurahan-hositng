@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Admin;
 
 class AuthController extends Controller
 {
@@ -26,9 +27,7 @@ class AuthController extends Controller
             'password' => 'required'
         ]);
 
-           dd(\App\Models\Admin::first());
-
-        $admin = \App\Models\Admin::where('username', $request->username)->first();
+        $admin = Admin::where('username', $request->username)->first();
 
         if (!$admin) {
             return back()->with('error', 'User tidak ditemukan');
