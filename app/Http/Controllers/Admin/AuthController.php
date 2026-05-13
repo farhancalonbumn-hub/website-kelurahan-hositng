@@ -26,10 +26,20 @@ class AuthController extends Controller
             'password' => 'required'
         ]);
 
-        // 🔥 DEBUG: CEK DATA MASUK ATAU TIDAK
-        dd($request->all());
+        $admin = \App\Models\Admin::where('username', $request->username)->first();
 
-        // ❌ sementara login dimatikan dulu
+        if (!$admin) {
+            return back()->with('error', 'User tidak ditemukan');
+        }
+
+        if (!Hash::check($request->password, $admin->password)) {
+            return back()->with('error', 'Password salah');
+        }
+
+        Auth::guard('admin')->login($admin);
+        $request->session()->regenerate();
+
+        return redirect('/admin/dashboard');
     }
 
     public function dashboard()
