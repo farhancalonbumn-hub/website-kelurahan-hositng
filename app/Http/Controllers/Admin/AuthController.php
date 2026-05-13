@@ -26,6 +26,8 @@ class AuthController extends Controller
             'password' => 'required'
         ]);
 
+           dd(\App\Models\Admin::first());
+
         $admin = \App\Models\Admin::where('username', $request->username)->first();
 
         if (!$admin) {
