@@ -46,7 +46,11 @@ class BeritaController extends Controller
     if (!file_exists($tujuan)) {
         mkdir($tujuan, 0777, true);
     }
-
+dd(
+    $request->hasFile('gambar'),
+    $file,
+    $tujuan
+);
     // upload file
     $file->move($tujuan, $namaFile);
 
