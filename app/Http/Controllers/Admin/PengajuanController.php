@@ -406,6 +406,9 @@ public function generateNomor($jenis, $id)
         // ==============================
 // 🔥 KIRIM WA OTOMATIS
 // ==============================
+ // ==============================
+// 🔥 KIRIM WA OTOMATIS
+// ==============================
 if ($surat->no_wa) {
 
     $no = preg_replace('/[^0-9]/', '', $surat->no_wa);
@@ -415,18 +418,16 @@ if ($surat->no_wa) {
     }
 
     try {
-        $res = Http::timeout(30)
-            ->withHeaders([
-                'Authorization' => config('services.fonnte.token')
-            ])
-            ->post('https://api.fonnte.com/send', [
-                'target' => $no,
-                'message' => "Yth. {$surat->nama},\n\nStatus pengajuan Anda sudah selesai.\n\nCek: " . config('app.url') . "/cek-status\n\nTerima kasih."
-            ]);
+        $res = Http::withHeaders([
+            'Authorization' => env('FONNTE_TOKEN')
+        ])->post('https://api.fonnte.com/send', [
+            'target' => $no,
+            'message' => "Yth. {$surat->nama},\n\nKami informasikan bahwa status pengajuan surat Anda telah selesai diproses.\n\nSilakan cek informasi persyaratan dan jadwal pengambilan surat melalui link berikut:\nhttp://127.0.0.1:8000/cek-status\n\nHarap datang sesuai jadwal yang telah ditentukan.\nTerima kasih."
+        ]);
 
+        // DEBUG PENTING
         logger()->info('FONNTE RESPONSE', [
-            'status' => $res->status(),
-            'body' => $res->body()
+            'response' => $res->json()
         ]);
 
     } catch (\Exception $e) {
@@ -434,8 +435,7 @@ if ($surat->no_wa) {
             'message' => $e->getMessage()
         ]);
     }
-}
-        
+}        
         // 🔥 TAMBAHAN (DI SINI)
 $pdf = Pdf::loadView('admin.pdf_surat_'.$jenis, compact('surat'));
 $namaFile = 'surat_'.$jenis.'_'.$surat->id.'_'.time().'.pdf';
