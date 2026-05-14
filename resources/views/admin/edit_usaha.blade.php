@@ -18,7 +18,12 @@
             @if($surat->upload_ktp)
             <div id="preview-ktp">
                 <button type="button" onclick="document.getElementById('preview-ktp').remove()">×</button>
-                <img src="{{ asset($surat->upload_ktp) }}" onclick="zoomGambar(this.src)">
+                <img src="{{ asset($surat->upload_ktp) }}"
+     style="cursor:pointer"
+     onclick="
+     document.getElementById('modalZoom').style.display='flex';
+     document.getElementById('imgZoom').src=this.src;
+">
             </div>
             @endif
 
