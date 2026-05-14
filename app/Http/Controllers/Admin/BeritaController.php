@@ -38,8 +38,7 @@ class BeritaController extends Controller
 
             $file = $request->file('gambar');
 
-            $namaFile = time().'_'.$file->getClientOriginalName();
-
+           $namaFile = time().'_'.Str::random(10).'.'.$file->getClientOriginalExtension();
             // simpan ke public/berita
             $file->move(public_path('berita'), $namaFile);
 
@@ -86,7 +85,7 @@ class BeritaController extends Controller
 
             $file = $request->file('gambar');
 
-            $namaFile = time().'_'.$file->getClientOriginalName();
+           $namaFile = time().'_'.Str::random(10).'.'.$file->getClientOriginalExtension();
 
             // simpan ke public/berita
             $file->move(public_path('berita'), $namaFile);
