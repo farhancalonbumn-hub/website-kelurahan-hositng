@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Berita;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class BeritaController extends Controller
 {
@@ -37,24 +38,14 @@ class BeritaController extends Controller
      if ($request->hasFile('gambar')) {
 
     $file = $request->file('gambar');
+
     $namaFile = time().'_'.$file->getClientOriginalName();
 
-    // folder tujuan
-    $tujuan = public_path('berita');
+    // simpan ke storage/app/public/berita
+    $path = $file->storeAs('berita', $namaFile, 'public');
 
-    // buat folder jika belum ada
-    if (!file_exists($tujuan)) {
-        mkdir($tujuan, 0777, true);
-    }
-dd(
-    $request->hasFile('gambar'),
-    $file,
-    $tujuan
-);
-    // upload file
-    $file->move($tujuan, $namaFile);
-
-    $gambarPath = 'berita/'.$namaFile;
+    // path untuk ditampilkan
+    $gambarPath = 'storage/'.$path;
 }
         Berita::create([
             'judul' => $request->judul,
@@ -92,15 +83,16 @@ dd(
         ];
 
         // ✅ kalau upload gambar baru
-        if ($request->hasFile('gambar')) {
+if ($request->hasFile('gambar')) {
 
-            $file = $request->file('gambar');
-            $namaFile = time().'_'.$file->getClientOriginalName();
+    $file = $request->file('gambar');
 
-            $file->move(public_path('berita'), $namaFile);
+    $namaFile = time().'_'.$file->getClientOriginalName();
 
-            $data['gambar'] = 'berita/'.$namaFile;
-        }
+    $path = $file->storeAs('berita', $namaFile, 'public');
+
+    $data['gambar'] = 'storage/'.$path;
+}
 
         $berita->update($data);
 
