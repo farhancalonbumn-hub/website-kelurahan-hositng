@@ -44,20 +44,28 @@ class StatistikController extends Controller
     ]);
 
     Statistic::updateOrCreate(
-        ['key' => 'penduduk'],
-        ['value' => str_replace('.', '', $request->penduduk)]
-    );
+    ['key' => 'penduduk'],
+    [
+        'name' => 'penduduk',
+        'value' => str_replace('.', '', $request->penduduk)
+    ]
+);
 
-    Statistic::updateOrCreate(
-        ['key' => 'rt'],
-        ['value' => str_replace('.', '', $request->rt)]
-    );
+Statistic::updateOrCreate(
+    ['key' => 'rt'],
+    [
+        'name' => 'rt',
+        'value' => str_replace('.', '', $request->rt)
+    ]
+);
 
-    Statistic::updateOrCreate(
-        ['key' => 'rw'],
-        ['value' => str_replace('.', '', $request->rw)]
-    );
-
+Statistic::updateOrCreate(
+    ['key' => 'rw'],
+    [
+        'name' => 'rw',
+        'value' => str_replace('.', '', $request->rw)
+    ]
+);
     return redirect('/admin/statistik')->with('success', 'Semua data berhasil diupdate');
 }
     // =======================
