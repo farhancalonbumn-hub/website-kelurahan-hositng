@@ -333,6 +333,7 @@
 #modalZoom img{
     max-width:90%;
     max-height:90%;
+    cursor: zoom-in;
 }
 
 .close-btn{
