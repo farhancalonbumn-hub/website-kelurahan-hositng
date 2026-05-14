@@ -116,13 +116,13 @@
 
                                 @if($item->file_pdf)
 
-                                    <a href="{{ asset('storage/' . $item->file_pdf) }}"
+                                    <a href="{{ asset($item->file_pdf) }}"
                                        class="btn btn-sm btn-danger"
                                        target="_blank">
                                         📄
                                     </a>
 
-                                    <a href="{{ asset('storage/' . $item->file_pdf) }}"
+                                    <a href="{{asset($item->file_pdf) }}"
                                        class="btn btn-sm btn-success"
                                        download>
                                         ⬇
