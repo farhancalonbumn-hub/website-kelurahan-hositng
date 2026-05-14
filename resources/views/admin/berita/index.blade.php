@@ -57,7 +57,7 @@
 
                             <td>
                                 @if($item->gambar)
-                                    <img src="{{ asset('storage/'.$item->gambar) }}"
+                                      <img src="{{ asset($item->gambar) }}"
                                          class="rounded"
                                          style="width:60px;height:60px;object-fit:cover;">
                                 @else
@@ -118,7 +118,7 @@
                 </small>
 
                 @if($item->gambar)
-                    <img src="{{ asset('storage/'.$item->gambar) }}"
+                    <img src="{{ asset($item->gambar) }}"
                          class="w-100 mb-2 rounded"
                          style="max-height:160px;object-fit:cover;">
                 @endif
