@@ -28,10 +28,23 @@
             @endif
 
             <!-- MODAL ZOOM -->
-            <div id="modalZoom" onclick="tutupZoom()">
-                <span class="close-btn">&times;</span>
-                <img id="imgZoom">
-            </div>
+<div id="modalZoom"
+     onclick="this.style.display='none'">
+
+    <span style="
+        position:absolute;
+        top:20px;
+        right:30px;
+        font-size:40px;
+        color:white;
+        z-index:9999999;
+        cursor:pointer;
+    ">
+        &times;
+    </span>
+
+    <img id="imgZoom">
+</div>
 
             <form id="form-generate"
                   action="{{ route('admin.update', ['jenis' => 'usaha', 'id' => $surat->id]) }}"
