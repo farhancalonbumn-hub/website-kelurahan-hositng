@@ -415,16 +415,18 @@ if ($surat->no_wa) {
     }
 
     try {
-        $res = Http::withHeaders([
-            'Authorization' => env('FONNTE_TOKEN')
-        ])->post('https://api.fonnte.com/send', [
-            'target' => $no,
-            'message' => "Yth. {$surat->nama},\n\nKami informasikan bahwa status pengajuan surat Anda telah selesai diproses.\n\nSilakan cek informasi persyaratan dan jadwal pengambilan surat melalui link berikut:\nhttp://127.0.0.1:8000/cek-status\n\nHarap datang sesuai jadwal yang telah ditentukan.\nTerima kasih."
-        ]);
+        $res = Http::timeout(30)
+            ->withHeaders([
+                'Authorization' => config('services.fonnte.token')
+            ])
+            ->post('https://api.fonnte.com/send', [
+                'target' => $no,
+                'message' => "Yth. {$surat->nama},\n\nStatus pengajuan Anda sudah selesai.\n\nCek: " . config('app.url') . "/cek-status\n\nTerima kasih."
+            ]);
 
-        // DEBUG PENTING
         logger()->info('FONNTE RESPONSE', [
-            'response' => $res->json()
+            'status' => $res->status(),
+            'body' => $res->body()
         ]);
 
     } catch (\Exception $e) {
