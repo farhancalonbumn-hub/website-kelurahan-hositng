@@ -19,7 +19,26 @@
     <i class="bi bi-person-badge-fill text-primary"></i> 
     Edit Surat Keterangan Kelahiran
 </h3>
+@if($surat->upload_ktp)
+<div id="preview-ktp">
 
+    <button type="button"
+            onclick="document.getElementById('preview-ktp').remove()">
+        ×
+    </button>
+
+    <img src="{{ asset($surat->upload_ktp) }}"
+         style="cursor:pointer"
+         onclick="zoomGambar(this.src)">
+</div>
+@endif
+
+
+<!-- MODAL ZOOM -->
+<div id="modalZoom" onclick="tutupZoom()">
+    <span class="close-btn">&times;</span>
+    <img id="imgZoom">
+</div>
 
 
 <!-- ================= DATA ANAK ================= -->
