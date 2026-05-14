@@ -323,13 +323,25 @@
 .form-card { border-radius: 20px; animation: fadeIn 0.5s ease-in-out; }
 .btn { border-radius: 8px; transition: 0.3s; }
 .btn:hover { transform: scale(1.02); }
-#preview-ktp img { width: 100%; height: auto; display: block; }
+#preview-ktp{
+    position:fixed;
+    top:15px;
+    right:15px;
+    width:220px;
+    background:white;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 10px 25px rgba(0,0,0,0.2);
+    z-index:99999;
+}
 
-<style>
-.form-card { border-radius: 20px; animation: fadeIn 0.5s ease-in-out; }
-.btn { border-radius: 8px; transition: 0.3s; }
-.btn:hover { transform: scale(1.02); }
-#preview-ktp img { width: 100%; height: auto; display: block; }
+#preview-ktp img{
+    width:100%;
+    height:auto;
+    display:block;
+}
+
+
 
 .is-invalid {
     border: 2px solid #dc3545 !important;
