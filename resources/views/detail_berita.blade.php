@@ -68,7 +68,7 @@
 <!-- 🔥 HERO -->
 <div class="hero-berita">
     @if($berita->gambar)
-       <img src="{{ asset('berita/'.$berita->gambar) }}">
+       <img src="{{ asset($item->gambar) }}">
     @endif
 
     <div class="hero-overlay">
@@ -109,7 +109,7 @@
             <div class="card card-berita shadow-sm">
 
 @if($item->gambar)
-    <img src="{{ asset('berita/'.$item->gambar) }}">
+    <img src="{{ asset($item->gambar) }}">
 @endif
 
                 <div class="card-body">
