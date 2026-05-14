@@ -364,7 +364,7 @@
                     <div class="berita-card">
 
                         <div class="berita-img">
-                            <img src="{{ asset($item->gambar) }}">
+                          <img src="{{ asset('berita/' . $item->gambar) }}">
                         </div>
 
                         <div class="berita-body">
