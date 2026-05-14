@@ -68,7 +68,7 @@
 <!-- 🔥 HERO -->
 <div class="hero-berita">
     @if($berita->gambar)
-        <img src="{{ asset('storage/'.$berita->gambar) }}">
+       <img src="{{ asset('berita/'.$berita->gambar) }}">
     @endif
 
     <div class="hero-overlay">
@@ -108,9 +108,9 @@
             @foreach($berita_lain as $item)
             <div class="card card-berita shadow-sm">
 
-                @if($item->gambar)
-                <img src="{{ asset('storage/'.$item->gambar) }}">
-                @endif
+@if($item->gambar)
+    <img src="{{ asset('berita/'.$item->gambar) }}">
+@endif
 
                 <div class="card-body">
                     <h6 class="fw-bold">
