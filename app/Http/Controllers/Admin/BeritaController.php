@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Berita;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
 
 class BeritaController extends Controller
 {
@@ -23,7 +22,7 @@ class BeritaController extends Controller
         return view('admin.berita.create');
     }
 
-    // 🔥 STORE BERITA (AMAN RAILWAY)
+    // 🔥 STORE BERITA
     public function store(Request $request)
     {
         $request->validate([
@@ -34,19 +33,19 @@ class BeritaController extends Controller
 
         $gambarPath = null;
 
-        // ✅ UPLOAD AMAN (public folder)
-     if ($request->hasFile('gambar')) {
+        // ✅ Upload gambar ke public/berita
+        if ($request->hasFile('gambar')) {
 
-    $file = $request->file('gambar');
+            $file = $request->file('gambar');
 
-    $namaFile = time().'_'.$file->getClientOriginalName();
+            $namaFile = time().'_'.$file->getClientOriginalName();
 
-    // simpan ke storage/app/public/berita
-    $path = $file->storeAs('berita', $namaFile, 'public');
+            // simpan ke public/berita
+            $file->move(public_path('berita'), $namaFile);
 
-    // path untuk ditampilkan
-    $gambarPath = 'storage/'.$path;
-}
+            $gambarPath = 'berita/'.$namaFile;
+        }
+
         Berita::create([
             'judul' => $request->judul,
             'slug' => Str::slug($request->judul),
@@ -58,14 +57,14 @@ class BeritaController extends Controller
         return redirect('/admin/berita')->with('success', 'Berita berhasil ditambahkan');
     }
 
-    // 🔥 EDIT FORM
+    // 🔥 FORM EDIT
     public function edit($id)
     {
         $berita = Berita::findOrFail($id);
         return view('admin.berita.edit', compact('berita'));
     }
 
-    // 🔥 UPDATE BERITA (AMAN)
+    // 🔥 UPDATE BERITA
     public function update(Request $request, $id)
     {
         $berita = Berita::findOrFail($id);
@@ -83,23 +82,24 @@ class BeritaController extends Controller
         ];
 
         // ✅ kalau upload gambar baru
-if ($request->hasFile('gambar')) {
+        if ($request->hasFile('gambar')) {
 
-    $file = $request->file('gambar');
+            $file = $request->file('gambar');
 
-    $namaFile = time().'_'.$file->getClientOriginalName();
+            $namaFile = time().'_'.$file->getClientOriginalName();
 
-    $path = $file->storeAs('berita', $namaFile, 'public');
+            // simpan ke public/berita
+            $file->move(public_path('berita'), $namaFile);
 
-    $data['gambar'] = 'storage/'.$path;
-}
+            $data['gambar'] = 'berita/'.$namaFile;
+        }
 
         $berita->update($data);
 
         return redirect('/admin/berita')->with('success', 'Berita berhasil diupdate');
     }
 
-    // 🔥 DELETE
+    // 🔥 DELETE BERITA
     public function delete($id)
     {
         $berita = Berita::findOrFail($id);
