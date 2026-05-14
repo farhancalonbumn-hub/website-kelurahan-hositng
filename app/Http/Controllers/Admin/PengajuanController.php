@@ -439,7 +439,7 @@ if ($surat->no_wa) {
         // 🔥 TAMBAHAN (DI SINI)
 $pdf = Pdf::loadView('admin.pdf_surat_'.$jenis, compact('surat'));
 $namaFile = 'surat_'.$jenis.'_'.$surat->id.'_'.time().'.pdf';
-Storage::disk('public')->put('file_arsip/'.$namaFile, $pdf->output());
+$pdf->save(public_path('file_arsip/' . $namaFile));
 
         $tahun = date('Y', strtotime($surat->tanggal_surat));
 
