@@ -179,7 +179,7 @@
 
                        <div class="col-6">
     <div class="mini-stat">
-       <h2>{{ number_format($rt->value ?? 0, 0, ',', '.') }}</h2>
+<h2>{{ number_format((int) str_replace('.', '', $penduduk->value ?? 0), 0, ',', '.') }}</h2>
         <p>Jumlah Penduduk</p>
     </div>
 </div>
