@@ -36,25 +36,30 @@ class StatistikController extends Controller
     // UPDATE SEMUA DATA SEKALIGUS
     // =======================
     public function update(Request $request)
-    {
-        $request->validate([
-            'penduduk' => 'required',
-            'rt' => 'required',
-            'rw' => 'required',
-        ]);
+{
+    $request->validate([
+        'penduduk' => 'required',
+        'rt' => 'required',
+        'rw' => 'required',
+    ]);
 
-        Statistic::where('key', 'penduduk')
-            ->update(['value' => str_replace('.', '', $request->penduduk)]);
+    Statistic::updateOrCreate(
+        ['key' => 'penduduk'],
+        ['value' => str_replace('.', '', $request->penduduk)]
+    );
 
-        Statistic::where('key', 'rt')
-            ->update(['value' => str_replace('.', '', $request->rt)]);
+    Statistic::updateOrCreate(
+        ['key' => 'rt'],
+        ['value' => str_replace('.', '', $request->rt)]
+    );
 
-        Statistic::where('key', 'rw')
-            ->update(['value' => str_replace('.', '', $request->rw)]);
+    Statistic::updateOrCreate(
+        ['key' => 'rw'],
+        ['value' => str_replace('.', '', $request->rw)]
+    );
 
-        return redirect('/admin/statistik')->with('success', 'Semua data berhasil diupdate');
-    }
-
+    return redirect('/admin/statistik')->with('success', 'Semua data berhasil diupdate');
+}
     // =======================
     // DELETE (opsional)
     // =======================
