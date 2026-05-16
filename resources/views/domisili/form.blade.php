@@ -310,7 +310,34 @@ if (file.size > 3 * 1024 * 1024) {
         }
     });
 }
+const inputPengantar = document.querySelector('input[name="pengantar_rt_rw"]');
 
+if (inputPengantar) {
+    inputPengantar.addEventListener('change', function () {
+        const file = this.files[0];
+
+        if (file) {
+
+            const allowedTypes = [
+                'application/pdf',
+                'image/jpeg',
+                'image/png'
+            ];
+
+            if (!allowedTypes.includes(file.type)) {
+                Swal.fire('Upload Gagal', 'Format harus PDF/JPG/PNG', 'error');
+                this.value = '';
+                return;
+            }
+
+            if (file.size > 3 * 1024 * 1024) {
+                Swal.fire('Upload Gagal', 'Ukuran file maksimal 3MB', 'error');
+                this.value = '';
+                return;
+            }
+        }
+    });
+}
 // SUBMIT
 function konfirmasiSubmit() {
 
