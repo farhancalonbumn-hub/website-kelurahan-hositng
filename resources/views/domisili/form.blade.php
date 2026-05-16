@@ -375,26 +375,50 @@ if (inputPengantar) {
         const file = this.files[0];
         if (!file) return;
 
-        const allowedTypes = [
-            'application/pdf',
-            'image/jpeg',
-            'image/png'
-        ];
-
-        if (!allowedTypes.includes(file.type)) {
-            Swal.fire('Upload Gagal', 'Format harus PDF/JPG/PNG', 'error');
+        // hanya image
+        if (!file.type.startsWith('image/')) {
+            Swal.fire('Error', 'Hanya file gambar (JPG/PNG/WEBP)', 'error');
             this.value = '';
             return;
         }
 
-        if (file.size > 10 * 1024 * 1024) {
-            Swal.fire('Upload Gagal', 'Ukuran file maksimal 10MB', 'error');
-            this.value = '';
-            return;
-        }
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            const img = new Image();
+            img.src = e.target.result;
+
+            img.onload = function () {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+
+                const maxWidth = 1000;
+                const scale = maxWidth / img.width;
+
+                canvas.width = maxWidth;
+                canvas.height = img.height * scale;
+
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                canvas.toBlob(function (blob) {
+                    if (!blob) return;
+
+                    const compressedFile = new File([blob], file.name, {
+                        type: 'image/jpeg',
+                        lastModified: Date.now()
+                    });
+
+                    const dt = new DataTransfer();
+                    dt.items.add(compressedFile);
+                    inputPengantar.files = dt.files;
+
+                }, 'image/jpeg', 0.7);
+            };
+        };
+
+        reader.readAsDataURL(file);
     });
-}
-    
+}    
 
     
 // SUBMIT
