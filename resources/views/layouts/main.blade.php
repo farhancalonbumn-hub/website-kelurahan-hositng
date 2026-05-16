@@ -399,6 +399,9 @@ main {
     }
 
 }
+    #mobileMenu .nav-link{
+    font-size: 14px;
+}
 </style>
 </head>
 <body>
