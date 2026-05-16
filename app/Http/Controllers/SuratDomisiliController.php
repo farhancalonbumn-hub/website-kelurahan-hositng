@@ -21,7 +21,12 @@ class SuratDomisiliController extends Controller
 // ================= SIMPAN DOMISILI =================
 public function store(Request $request)
 {
-    
+        dd([
+        'ktp_error' => $request->file('upload_ktp')?->getError(),
+        'ktp_size' => $request->file('upload_ktp')?->getSize(),
+        'pengantar_error' => $request->file('pengantar_rt_rw')?->getError(),
+        'pengantar_size' => $request->file('pengantar_rt_rw')?->getSize(),
+    ]);
     
        $validated = $request->validate([
 
