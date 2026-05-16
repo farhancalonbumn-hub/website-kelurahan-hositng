@@ -176,7 +176,7 @@ Isi alamat tempat tinggal saat ini (wilayah kelurahan). KTP digunakan untuk veri
     @enderror
 
     <small class="text-muted">
-        Digunakan untuk verifikasi domisili. Format JPG/PNG maksimal 3MB.
+        Digunakan untuk verifikasi domisili. Format JPG/PNG maksimal 5MB.
     </small>
 
     <small class="text-muted d-block mt-1">
@@ -211,7 +211,7 @@ Isi alamat tempat tinggal saat ini (wilayah kelurahan). KTP digunakan untuk veri
 
     <small class="text-muted d-block mt-1">
         Dapat berupa hasil scan atau foto surat pengantar dari RT/RW
-        (PDF/JPG/PNG, maks 3MB).
+        (PDF/JPG/PNG, maks 5MB).
     </small>
 </div>
 <div class="mt-4">
@@ -295,18 +295,19 @@ if (inputKtp) {
         const file = this.files[0];
 
         if (file) {
-            const allowedTypes = ['image/jpeg','image/png'];
+            const allowedTypes = ['image/jpeg','image/png','image/webp'];
 
             if (!allowedTypes.includes(file.type)) {
-                Swal.fire('Error','Format harus JPG/PNG','error');
+                Swal.fire('Error','Format harus JPG, PNG, atau WEBP','error');
                 this.value = '';
                 return;
             }
 
-if (file.size > 3 * 1024 * 1024) {
-    Swal.fire('Upload Gagal','Ukuran file maksimal 3MB','error');
-    this.value = '';
-}
+            if (file.size > 5 * 1024 * 1024) {
+                Swal.fire('Upload Gagal','Ukuran file maksimal 5MB','error');
+                this.value = '';
+                return;
+            }
         }
     });
 }
@@ -330,8 +331,8 @@ if (inputPengantar) {
                 return;
             }
 
-            if (file.size > 3 * 1024 * 1024) {
-                Swal.fire('Upload Gagal', 'Ukuran file maksimal 3MB', 'error');
+            if (file.size > 5 * 1024 * 1024) {
+                Swal.fire('Upload Gagal', 'Ukuran file maksimal 5MB', 'error');
                 this.value = '';
                 return;
             }
