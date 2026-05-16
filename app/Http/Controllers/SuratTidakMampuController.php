@@ -28,7 +28,7 @@ class SuratTidakMampuController extends Controller
             'kewarganegaraan' => 'required|string',
             'pekerjaan' => 'required|string',
             'alamat' => 'required|string',
-            'upload_ktp' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:10240',
+           'upload_ktp' => 'required|image|mimes:jpg,jpeg,png,webp|max:10240',
             'no_wa' => 'required|regex:/^08[0-9]{8,12}$/',
         ]);
 
