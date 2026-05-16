@@ -310,7 +310,7 @@ if (inputKtp) {
             return;
         }
 
-        if (file.size > 4 * 1024 * 1024) {
+        if (file.size > 2 * 1024 * 1024) {
             Swal.fire('Upload Gagal', 'Ukuran file maksimal 4MB', 'error');
             this.value = '';
             return;
@@ -341,7 +341,7 @@ if (inputPengantar) {
             return;
         }
 
-        if (file.size > 4 * 1024 * 1024) {
+        if (file.size > 2 * 1024 * 1024) {
             Swal.fire('Upload Gagal', 'Ukuran file maksimal 4MB', 'error');
             this.value = '';
             return;
@@ -349,34 +349,7 @@ if (inputPengantar) {
     });
 }
     
-// ===============================
-// COMPRESS FUNCTION (AMAN)
-// ===============================
-async function compressImage(input, options) {
-    const file = input.files[0];
-    if (!file) return;
 
-    try {
-        const compressedBlob = await imageCompression(file, options);
-
-        // 🔥 convert Blob -> File (INI YANG FIX ERROR)
-        const compressedFile = new File(
-            [compressedBlob],
-            file.name,
-            { type: compressedBlob.type }
-        );
-
-        const dataTransfer = new DataTransfer();
-        dataTransfer.items.add(compressedFile);
-
-        input.files = dataTransfer.files;
-
-        console.log("Compress sukses:", compressedFile.size);
-
-    } catch (err) {
-        console.log("Compress error:", err);
-    }
-}
     
 // SUBMIT
 function konfirmasiSubmit() {
@@ -403,7 +376,7 @@ function konfirmasiSubmit() {
     }
 
     // 🔥 VALIDASI FILE SIZE (BIAR CEPAT & TIDAK ERROR PUTIH)
-    const maxSize = 4 * 1024 * 1024; // 4MB
+    const maxSize = 2 * 1024 * 1024; // 4MB
 
     const ktp = document.querySelector('input[name="upload_ktp"]').files[0];
     const pengantar = document.querySelector('input[name="pengantar_rt_rw"]').files[0];
@@ -411,7 +384,7 @@ function konfirmasiSubmit() {
     if (ktp && ktp.size > maxSize) {
         Swal.fire(
             'Upload Gagal',
-            'Ukuran file KTP maksimal 4MB',
+            'Ukuran file KTP maksimal 2MB',
             'error'
         );
         return;
@@ -420,7 +393,7 @@ function konfirmasiSubmit() {
     if (pengantar && pengantar.size > maxSize) {
         Swal.fire(
             'Upload Gagal',
-            'Ukuran surat pengantar maksimal 4MB',
+            'Ukuran surat pengantar maksimal 2MB',
             'error'
         );
         return;
