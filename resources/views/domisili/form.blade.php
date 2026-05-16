@@ -344,6 +344,7 @@ function konfirmasiSubmit() {
 
     let valid = true;
 
+    // VALIDASI REQUIRED FIELD
     document.querySelectorAll('#formDomisili [required]').forEach(function(input) {
         const error = input.parentElement.parentElement.querySelector('.error');
 
@@ -355,17 +356,44 @@ function konfirmasiSubmit() {
         }
     });
 
+    // VALIDASI NIK
     const nik = document.getElementById('nik').value;
     if (nik.length !== 16) {
         valid = false;
         document.getElementById('errorNik').innerText = "NIK harus 16 digit!";
     }
 
+    // 🔥 VALIDASI FILE SIZE (BIAR CEPAT & TIDAK ERROR PUTIH)
+    const maxSize = 4 * 1024 * 1024; // 4MB
+
+    const ktp = document.querySelector('input[name="upload_ktp"]').files[0];
+    const pengantar = document.querySelector('input[name="pengantar_rt_rw"]').files[0];
+
+    if (ktp && ktp.size > maxSize) {
+        Swal.fire(
+            'Upload Gagal',
+            'Ukuran file KTP maksimal 4MB',
+            'error'
+        );
+        return;
+    }
+
+    if (pengantar && pengantar.size > maxSize) {
+        Swal.fire(
+            'Upload Gagal',
+            'Ukuran surat pengantar maksimal 4MB',
+            'error'
+        );
+        return;
+    }
+
+    // JIKA ADA ERROR FORM
     if (!valid) {
         Swal.fire('Error','Isi semua data dengan benar','error');
         return;
     }
 
+    // KONFIRMASI KIRIM
     Swal.fire({
         title: 'Kirim Data?',
         icon: 'warning',
@@ -378,7 +406,6 @@ function konfirmasiSubmit() {
         }
     });
 }
-
 </script>
 
 @if(session('success'))
