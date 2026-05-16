@@ -38,7 +38,7 @@ public function store(Request $request)
     'pekerjaan' => 'required|string',
     'alamat' => 'required|string',
 
-    'upload_ktp' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
+    'upload_ktp' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:3072',
 
     'pengantar_rt_rw' => 'required|file|mimes:pdf,jpg,jpeg,png|max:3072',
 
