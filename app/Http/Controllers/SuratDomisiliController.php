@@ -22,7 +22,7 @@ class SuratDomisiliController extends Controller
 public function store(Request $request)
 {
     
-    
+    dd($request->all(), $_FILES);
     
        $validated = $request->validate([
 
