@@ -43,6 +43,7 @@ class SuratKelahiranController extends Controller
             'pekerjaan_ibu' => 'required|string|max:100',
             'alamat_ibu' => 'required|string',
             'no_wa' => 'required|regex:/^08[0-9]{8,12}$/',
+            'upload_ktp' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:10240',                            
         ]);
 
             // 🔥 LIMIT NIK
