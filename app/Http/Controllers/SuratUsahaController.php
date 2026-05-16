@@ -31,7 +31,7 @@ class SuratUsahaController extends Controller
             'alamat' => 'required|string',
             'jenis_usaha' => 'required|string|max:100',
             'tempat_usaha' => 'required|string|max:150',
-            'upload_ktp' => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
+            'upload_ktp' => 'required|image|mimes:jpg,jpeg,png,webp|max:10240',
             'no_wa' => 'required|regex:/^08[0-9]{8,12}$/',
         ]);
 
