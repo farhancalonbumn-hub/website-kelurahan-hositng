@@ -400,7 +400,7 @@ main {
 
 }
     #mobileMenu .nav-link{
-    font-size: 14px;
+    font-size: 11px;
 }
 </style>
 </head>
