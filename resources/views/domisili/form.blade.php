@@ -4,7 +4,7 @@
 
 <!-- 🔥 BOOTSTRAP ICON -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.min.js"></script>
+
 
 <div class="container py-4 py-md-5 d-flex justify-content-center">
 
@@ -310,7 +310,7 @@ if (inputKtp) {
             return;
         }
 
-        if (file.size > 2 * 1024 * 1024) {
+        if (file.size > 10 * 1024 * 1024) {
             Swal.fire('Upload Gagal', 'Ukuran file maksimal 4MB', 'error');
             this.value = '';
             return;
@@ -341,7 +341,7 @@ if (inputPengantar) {
             return;
         }
 
-        if (file.size > 2 * 1024 * 1024) {
+        if (file.size > 10 * 1024 * 1024) {
             Swal.fire('Upload Gagal', 'Ukuran file maksimal 4MB', 'error');
             this.value = '';
             return;
@@ -376,7 +376,7 @@ function konfirmasiSubmit() {
     }
 
     // 🔥 VALIDASI FILE SIZE (BIAR CEPAT & TIDAK ERROR PUTIH)
-    const maxSize = 2 * 1024 * 1024; // 4MB
+    const maxSize = 10 * 1024 * 1024; // 4MB
 
     const ktp = document.querySelector('input[name="upload_ktp"]').files[0];
     const pengantar = document.querySelector('input[name="pengantar_rt_rw"]').files[0];
@@ -384,7 +384,7 @@ function konfirmasiSubmit() {
     if (ktp && ktp.size > maxSize) {
         Swal.fire(
             'Upload Gagal',
-            'Ukuran file KTP maksimal 2MB',
+            'Ukuran file KTP maksimal 10MB',
             'error'
         );
         return;
@@ -393,7 +393,7 @@ function konfirmasiSubmit() {
     if (pengantar && pengantar.size > maxSize) {
         Swal.fire(
             'Upload Gagal',
-            'Ukuran surat pengantar maksimal 2MB',
+            'Ukuran surat pengantar maksimal 10MB',
             'error'
         );
         return;
