@@ -176,7 +176,7 @@ Isi alamat tempat tinggal saat ini (wilayah kelurahan). KTP digunakan untuk veri
     @enderror
 
     <small class="text-muted">
-        Digunakan untuk verifikasi domisili. Format JPG/PNG maksimal 2MB.
+        Digunakan untuk verifikasi domisili. Format JPG/PNG maksimal 3MB.
     </small>
 
     <small class="text-muted d-block mt-1">
