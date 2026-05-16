@@ -38,8 +38,8 @@ public function store(Request $request)
     'pekerjaan' => 'required|string',
     'alamat' => 'required|string',
 
-'upload_ktp' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:10240 ',
-'pengantar_rt_rw' => 'required|mimes:jpg,jpeg,png,pdf|max:10240 ',
+'upload_ktp' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:10240',
+'pengantar_rt_rw' => 'required|mimes:jpg,jpeg,png,pdf|max:10240',
 
     'no_wa' => 'required|regex:/^08[0-9]{8,12}$/',
 
