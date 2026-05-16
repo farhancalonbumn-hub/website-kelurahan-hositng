@@ -203,18 +203,30 @@ Tuliskan alamat tempat tinggal keluarga saat ini.
 
 <!-- ================= UPLOAD ================= -->
 <div class="mt-4">
-<label class="mb-1 fw-semibold">
-<i class="bi bi-upload"></i> Upload KTP 
-</label>
+    <label class="mb-1 fw-semibold">
+        <i class="bi bi-upload"></i> Upload KTP <span class="text-danger">*</span>
+    </label>
 
-<input type="file" name="upload_ktp" class="form-control" accept="image/png, image/jpeg">
+    <input type="file"
+        name="upload_ktp"
+        class="form-control"
+        accept="image/png, image/jpeg, image/webp"
+        required>
 
-<small class="text-muted d-block mt-1">
-<i class="bi bi-info-circle"></i>
-Upload KTP digunakan untuk verifikasi data domisili pemohon 
-</small>
+    <small class="text-muted d-block mt-1">
+        <i class="bi bi-info-circle"></i>
+        Format JPG / PNG / WEBP. Maksimal 10MB (akan dikompres otomatis).
+    </small>
+
+    <small class="text-muted d-block">
+        Pastikan KTP terlihat jelas dan dapat dibaca.
+    </small>
+
+    <small class="text-muted d-block">
+        Digunakan untuk verifikasi data pemohon.
+    </small>
 </div>
-
+    
 <!-- BUTTON -->
 <div class="mt-4">
 <button type="button" onclick="konfirmasiSubmit()" class="btn btn-primary btn-lg w-100 btn-modern">
@@ -251,27 +263,55 @@ to {opacity:1; transform: translateY(0);}
 @section('scripts')
 <script>
 
-// VALIDASI FILE
-const ktp = document.querySelector('input[name="upload_ktp"]');
+const inputKtp = document.querySelector('input[name="upload_ktp"]');
 
-if (ktp) {
-ktp.addEventListener('change', function() {
-const file = this.files[0];
-if (!file) return;
+if (inputKtp) {
+    inputKtp.addEventListener('change', function () {
+        const file = this.files[0];
+        if (!file) return;
 
-const allowed = ['image/jpeg','image/png','application/pdf'];
+        if (!file.type.startsWith('image/')) {
+            Swal.fire('Error', 'File harus gambar', 'error');
+            this.value = '';
+            return;
+        }
 
-if (!allowed.includes(file.type)) {
-Swal.fire('Error','Format harus JPG/PNG/PDF','error');
-this.value = '';
-return;
-}
+        const reader = new FileReader();
 
-if (file.size > 10 * 1024 * 1024) {
-Swal.fire('Error','File maksimal 10MB','error');
-this.value = '';
-}
-});
+        reader.onload = function (e) {
+            const img = new Image();
+            img.src = e.target.result;
+
+            img.onload = function () {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+
+                const maxWidth = 1000;
+                const scale = maxWidth / img.width;
+
+                canvas.width = maxWidth;
+                canvas.height = img.height * scale;
+
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                canvas.toBlob(function (blob) {
+                    if (!blob) return;
+
+                    const compressedFile = new File([blob], file.name, {
+                        type: 'image/jpeg',
+                        lastModified: Date.now()
+                    });
+
+                    const dt = new DataTransfer();
+                    dt.items.add(compressedFile);
+                    inputKtp.files = dt.files;
+
+                }, 'image/jpeg', 0.7);
+            };
+        };
+
+        reader.readAsDataURL(file);
+    });
 }
 
 // SUBMIT
