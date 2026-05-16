@@ -38,9 +38,8 @@ public function store(Request $request)
     'pekerjaan' => 'required|string',
     'alamat' => 'required|string',
 
-'upload_ktp' => 'nullable|file|mimes:jpg,jpeg,png|max:3072',
-
-'pengantar_rt_rw' => 'required|file|mimes:jpg,jpeg,png|max:3072',
+'upload_ktp' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
+'pengantar_rt_rw' => 'required|mimes:jpg,jpeg,png,pdf|max:5120',
 
     'no_wa' => 'required|regex:/^08[0-9]{8,12}$/',
 
@@ -48,12 +47,12 @@ public function store(Request $request)
 
     // KTP
     'upload_ktp.mimes' => 'Upload KTP harus format JPG, JPEG, PNG, atau PDF',
-    'upload_ktp.max' => 'Ukuran file KTP maksimal 3MB',
+    'upload_ktp.max' => 'Ukuran file KTP maksimal 5MB',
 
     // Pengantar
     'pengantar_rt_rw.required' => 'Surat pengantar RT/RW wajib diupload',
     'pengantar_rt_rw.mimes' => 'Format surat pengantar harus PDF, JPG, JPEG, atau PNG',
-    'pengantar_rt_rw.max' => 'Ukuran surat pengantar maksimal 3MB',
+    'pengantar_rt_rw.max' => 'Ukuran surat pengantar maksimal 5MB',
 
     // WA
     'no_wa.regex' => 'Nomor WhatsApp tidak valid',
