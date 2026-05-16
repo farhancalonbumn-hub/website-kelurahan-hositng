@@ -295,6 +295,9 @@ document.getElementById('nik').addEventListener('input', function() {
 // ===============================
 // VALIDASI KTP
 // ===============================
+// ===============================
+// VALIDASI + AUTO COMPRESS KTP
+// ===============================
 const inputKtp = document.querySelector('input[name="upload_ktp"]');
 
 if (inputKtp) {
@@ -310,17 +313,60 @@ if (inputKtp) {
             return;
         }
 
-        if (file.size > 10 * 1024 * 1024) {
-            Swal.fire('Upload Gagal', 'Ukuran file maksimal 4MB', 'error');
-            this.value = '';
-            return;
+        // lanjut compress
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            const img = new Image();
+            img.src = e.target.result;
+
+            img.onload = function () {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+
+                // resize aman untuk semua HP
+                const maxWidth = 1000;
+                const scale = maxWidth / img.width;
+
+                canvas.width = maxWidth;
+                canvas.height = img.height * scale;
+
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                canvas.toBlob(function (blob) {
+                    if (!blob) return;
+
+                    // kalau masih terlalu besar, turunin kualitas lagi
+                    if (blob.size > 900 * 1024) {
+                        canvas.toBlob(function (blob2) {
+                            setFile(blob2);
+                        }, 'image/jpeg', 0.5);
+                    } else {
+                        setFile(blob);
+                    }
+
+                }, 'image/jpeg', 0.7);
+            };
+        };
+
+        reader.readAsDataURL(file);
+
+        function setFile(blob) {
+            const compressedFile = new File([blob], file.name, {
+                type: 'image/jpeg',
+                lastModified: Date.now()
+            });
+
+            const dt = new DataTransfer();
+            dt.items.add(compressedFile);
+            inputKtp.files = dt.files;
         }
     });
 }
 
 
 // ===============================
-// VALIDASI PENGANTAR RT/RW
+// VALIDASI PENGANTAR RT/RW (TETAP)
 // ===============================
 const inputPengantar = document.querySelector('input[name="pengantar_rt_rw"]');
 
@@ -342,7 +388,7 @@ if (inputPengantar) {
         }
 
         if (file.size > 10 * 1024 * 1024) {
-            Swal.fire('Upload Gagal', 'Ukuran file maksimal 4MB', 'error');
+            Swal.fire('Upload Gagal', 'Ukuran file maksimal 10MB', 'error');
             this.value = '';
             return;
         }
