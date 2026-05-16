@@ -357,83 +357,26 @@ async function compressImage(input, options) {
     if (!file) return;
 
     try {
-        const compressedFile = await imageCompression(file, options);
+        const compressedBlob = await imageCompression(file, options);
+
+        // 🔥 convert Blob -> File (INI YANG FIX ERROR)
+        const compressedFile = new File(
+            [compressedBlob],
+            file.name,
+            { type: compressedBlob.type }
+        );
 
         const dataTransfer = new DataTransfer();
         dataTransfer.items.add(compressedFile);
+
         input.files = dataTransfer.files;
 
+        console.log("Compress sukses:", compressedFile.size);
+
     } catch (err) {
-        console.log('Compress error:', err);
+        console.log("Compress error:", err);
     }
 }
-
-
-// ===============================
-// KTP (IMAGE ONLY)
-// ===============================
-document.querySelector('input[name="upload_ktp"]')
-.addEventListener('change', async function () {
-    const file = this.files[0];
-    if (!file) return;
-
-    const allowedTypes = ['image/jpeg','image/png','image/webp'];
-
-    if (!allowedTypes.includes(file.type)) {
-        Swal.fire('Error','Format harus JPG, PNG, atau WEBP','error');
-        this.value = '';
-        return;
-    }
-
-    if (file.size > 4 * 1024 * 1024) {
-        Swal.fire('Upload Gagal','Maksimal 4MB','error');
-        this.value = '';
-        return;
-    }
-
-    const options = {
-        maxSizeMB: 1.5,
-        maxWidthOrHeight: 1600,
-        useWebWorker: true
-    };
-
-    await compressImage(this, options);
-});
-
-
-// ===============================
-// PENGANTAR RT/RW
-// ===============================
-document.querySelector('input[name="pengantar_rt_rw"]')
-.addEventListener('change', async function () {
-    const file = this.files[0];
-    if (!file) return;
-
-    const allowedTypes = ['application/pdf','image/jpeg','image/png'];
-
-    if (!allowedTypes.includes(file.type)) {
-        Swal.fire('Upload Gagal','Format harus PDF/JPG/PNG','error');
-        this.value = '';
-        return;
-    }
-
-    if (file.size > 4 * 1024 * 1024) {
-        Swal.fire('Upload Gagal','Maksimal 4MB','error');
-        this.value = '';
-        return;
-    }
-
-    // ❗ PDF JANGAN DI-COMPRESS
-    if (file.type === "application/pdf") return;
-
-    const options = {
-        maxSizeMB: 1,
-        maxWidthOrHeight: 1400,
-        useWebWorker: true
-    };
-
-    await compressImage(this, options);
-});
     
 // SUBMIT
 function konfirmasiSubmit() {
