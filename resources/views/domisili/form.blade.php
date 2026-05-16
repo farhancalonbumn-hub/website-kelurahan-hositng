@@ -176,7 +176,7 @@ Isi alamat tempat tinggal saat ini (wilayah kelurahan). KTP digunakan untuk veri
     @enderror
 
     <small class="text-muted">
-        Digunakan untuk verifikasi domisili. Format JPG/PNG maksimal 5MB.
+        Digunakan untuk verifikasi domisili. Format JPG/PNG maksimal 4MB.
     </small>
 
     <small class="text-muted d-block mt-1">
@@ -211,7 +211,7 @@ Isi alamat tempat tinggal saat ini (wilayah kelurahan). KTP digunakan untuk veri
 
     <small class="text-muted d-block mt-1">
         Dapat berupa hasil scan atau foto surat pengantar dari RT/RW
-        (PDF/JPG/PNG, maks 5MB).
+        (PDF/JPG/PNG, maks 4MB).
     </small>
 </div>
 <div class="mt-4">
@@ -303,8 +303,8 @@ if (inputKtp) {
                 return;
             }
 
-            if (file.size > 5 * 1024 * 1024) {
-                Swal.fire('Upload Gagal','Ukuran file maksimal 5MB','error');
+            if (file.size > 4 * 1024 * 1024) {
+                Swal.fire('Upload Gagal','Ukuran file maksimal 4MB','error');
                 this.value = '';
                 return;
             }
@@ -331,8 +331,8 @@ if (inputPengantar) {
                 return;
             }
 
-            if (file.size > 5 * 1024 * 1024) {
-                Swal.fire('Upload Gagal', 'Ukuran file maksimal 5MB', 'error');
+            if (file.size > 4 * 1024 * 1024) {
+                Swal.fire('Upload Gagal', 'Ukuran file maksimal 4MB', 'error');
                 this.value = '';
                 return;
             }
