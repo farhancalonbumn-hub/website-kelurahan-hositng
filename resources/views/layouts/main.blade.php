@@ -375,11 +375,14 @@ main {
         </a>
 
         <!-- TOGGLER -->
-        <button class="navbar-toggler bg-light" type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+<button class="navbar-toggler bg-light d-lg-none"
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#mobileMenu">
+
+    <span class="navbar-toggler-icon"></span>
+
+</button>
 
         <!-- MENU -->
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
@@ -468,7 +471,103 @@ main {
 
     </div>
 </nav>
+<!-- MOBILE MENU -->
+<div class="offcanvas offcanvas-end d-lg-none"
+     tabindex="-1"
+     id="mobileMenu"
+     style="
+        width: 75%;
+        background: linear-gradient(135deg, #2F5D50, #3E7C6F);
+        color:white;
+     ">
 
+    <!-- HEADER -->
+    <div class="offcanvas-header border-bottom border-light border-opacity-25">
+
+        <h5 class="offcanvas-title fw-bold mb-0">
+            Menu
+        </h5>
+
+        <button type="button"
+                class="btn-close btn-close-white"
+                data-bs-dismiss="offcanvas">
+        </button>
+
+    </div>
+
+    <!-- BODY -->
+    <div class="offcanvas-body">
+
+        <ul class="navbar-nav">
+
+            <li class="nav-item">
+                <a class="nav-link text-white fw-semibold py-3 border-bottom border-light border-opacity-10"
+                   href="/">
+                    Beranda
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link text-white fw-semibold py-3 border-bottom border-light border-opacity-10"
+                   href="/sejarah">
+                    Sejarah Kelurahan
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link text-white fw-semibold py-3 border-bottom border-light border-opacity-10"
+                   href="/visi-misi">
+                    Visi & Misi
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link text-white fw-semibold py-3 border-bottom border-light border-opacity-10"
+                   href="/statistik">
+                    Statistik Kelurahan
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link text-white fw-semibold py-3 border-bottom border-light border-opacity-10"
+                   href="/peta">
+                    Peta Wilayah
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link text-white fw-semibold py-3 border-bottom border-light border-opacity-10"
+                   href="/pendaftaran">
+                    Surat Menyurat
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link text-white fw-semibold py-3 border-bottom border-light border-opacity-10"
+                   href="/cek-status">
+                    Cek Status Surat
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link text-white fw-semibold py-3 border-bottom border-light border-opacity-10"
+                   href="/pengaduan">
+                    Pengaduan
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link text-white fw-semibold py-3"
+                   href="/cek-status-pengaduan">
+                    Cek Status Pengaduan
+                </a>
+            </li>
+
+        </ul>
+
+    </div>
+
+</div>
 
 
 <!-- CONTENT -->
