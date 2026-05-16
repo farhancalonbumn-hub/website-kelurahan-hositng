@@ -4,6 +4,7 @@
 
 <!-- 🔥 BOOTSTRAP ICON -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.min.js"></script>
 
 <div class="container py-4 py-md-5 d-flex justify-content-center">
 
@@ -288,57 +289,152 @@ document.getElementById('nik').addEventListener('input', function() {
 });
 
 // FILE VALIDATION
+// ===============================
+// VALIDASI KTP
+// ===============================
+// ===============================
+// VALIDASI KTP
+// ===============================
 const inputKtp = document.querySelector('input[name="upload_ktp"]');
 
 if (inputKtp) {
-    inputKtp.addEventListener('change', function() {
+    inputKtp.addEventListener('change', function () {
         const file = this.files[0];
+        if (!file) return;
 
-        if (file) {
-            const allowedTypes = ['image/jpeg','image/png','image/webp'];
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
 
-            if (!allowedTypes.includes(file.type)) {
-                Swal.fire('Error','Format harus JPG, PNG, atau WEBP','error');
-                this.value = '';
-                return;
-            }
+        if (!allowedTypes.includes(file.type)) {
+            Swal.fire('Error', 'Format harus JPG, PNG, atau WEBP', 'error');
+            this.value = '';
+            return;
+        }
 
-            if (file.size > 4 * 1024 * 1024) {
-                Swal.fire('Upload Gagal','Ukuran file maksimal 4MB','error');
-                this.value = '';
-                return;
-            }
+        if (file.size > 4 * 1024 * 1024) {
+            Swal.fire('Upload Gagal', 'Ukuran file maksimal 4MB', 'error');
+            this.value = '';
+            return;
         }
     });
 }
+
+
+// ===============================
+// VALIDASI PENGANTAR RT/RW
+// ===============================
 const inputPengantar = document.querySelector('input[name="pengantar_rt_rw"]');
 
 if (inputPengantar) {
     inputPengantar.addEventListener('change', function () {
         const file = this.files[0];
+        if (!file) return;
 
-        if (file) {
+        const allowedTypes = [
+            'application/pdf',
+            'image/jpeg',
+            'image/png'
+        ];
 
-            const allowedTypes = [
-                'application/pdf',
-                'image/jpeg',
-                'image/png'
-            ];
+        if (!allowedTypes.includes(file.type)) {
+            Swal.fire('Upload Gagal', 'Format harus PDF/JPG/PNG', 'error');
+            this.value = '';
+            return;
+        }
 
-            if (!allowedTypes.includes(file.type)) {
-                Swal.fire('Upload Gagal', 'Format harus PDF/JPG/PNG', 'error');
-                this.value = '';
-                return;
-            }
-
-            if (file.size > 4 * 1024 * 1024) {
-                Swal.fire('Upload Gagal', 'Ukuran file maksimal 4MB', 'error');
-                this.value = '';
-                return;
-            }
+        if (file.size > 4 * 1024 * 1024) {
+            Swal.fire('Upload Gagal', 'Ukuran file maksimal 4MB', 'error');
+            this.value = '';
+            return;
         }
     });
 }
+    
+// ===============================
+// COMPRESS FUNCTION (AMAN)
+// ===============================
+async function compressImage(input, options) {
+    const file = input.files[0];
+    if (!file) return;
+
+    try {
+        const compressedFile = await imageCompression(file, options);
+
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(compressedFile);
+        input.files = dataTransfer.files;
+
+    } catch (err) {
+        console.log('Compress error:', err);
+    }
+}
+
+
+// ===============================
+// KTP (IMAGE ONLY)
+// ===============================
+document.querySelector('input[name="upload_ktp"]')
+.addEventListener('change', async function () {
+    const file = this.files[0];
+    if (!file) return;
+
+    const allowedTypes = ['image/jpeg','image/png','image/webp'];
+
+    if (!allowedTypes.includes(file.type)) {
+        Swal.fire('Error','Format harus JPG, PNG, atau WEBP','error');
+        this.value = '';
+        return;
+    }
+
+    if (file.size > 4 * 1024 * 1024) {
+        Swal.fire('Upload Gagal','Maksimal 4MB','error');
+        this.value = '';
+        return;
+    }
+
+    const options = {
+        maxSizeMB: 1.5,
+        maxWidthOrHeight: 1600,
+        useWebWorker: true
+    };
+
+    await compressImage(this, options);
+});
+
+
+// ===============================
+// PENGANTAR RT/RW
+// ===============================
+document.querySelector('input[name="pengantar_rt_rw"]')
+.addEventListener('change', async function () {
+    const file = this.files[0];
+    if (!file) return;
+
+    const allowedTypes = ['application/pdf','image/jpeg','image/png'];
+
+    if (!allowedTypes.includes(file.type)) {
+        Swal.fire('Upload Gagal','Format harus PDF/JPG/PNG','error');
+        this.value = '';
+        return;
+    }
+
+    if (file.size > 4 * 1024 * 1024) {
+        Swal.fire('Upload Gagal','Maksimal 4MB','error');
+        this.value = '';
+        return;
+    }
+
+    // ❗ PDF JANGAN DI-COMPRESS
+    if (file.type === "application/pdf") return;
+
+    const options = {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 1400,
+        useWebWorker: true
+    };
+
+    await compressImage(this, options);
+});
+    
 // SUBMIT
 function konfirmasiSubmit() {
 
