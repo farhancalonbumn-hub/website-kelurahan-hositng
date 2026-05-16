@@ -152,25 +152,30 @@
 </div>
 
     <!-- Upload -->
-    <div class="col-12">
-        <label class="mb-1 fw-semibold">
-            <i class="bi bi-upload"></i> Upload KTP 
-        </label>
-        <input type="file" name="upload_ktp" class="form-control" accept="image/png, image/jpeg">
-        <small class="text-muted">
+   <div class="col-12">
+    <label class="mb-1 fw-semibold">
+        <i class="bi bi-upload"></i> Upload KTP <span class="text-danger">*</span>
+    </label>
 
-<small class="text-muted d-block">
-Format JPG/PNG/PDF maksimal 10MB.
-</small>
+    <input type="file"
+        name="upload_ktp"
+        class="form-control"
+        accept="image/png, image/jpeg, image/webp"
+        required>
 
-<small class="text-muted d-block">
-Pastikan Foto Ktp  terlihat jelas dan dapat dibaca, data ini Digunakan untuk verifikasi kondisi dan domisili pemohon.
+    <small class="text-muted d-block">
+        Format JPG/PNG/WEBP.
+    </small>
 
-</small>
-    </div>
+    <small class="text-muted d-block">
+        Pastikan foto KTP terlihat jelas dan dapat dibaca.
+    </small>
 
+    <small class="text-muted d-block">
+        Data digunakan untuk verifikasi kondisi dan domisili pemohon.
+    </small>
 </div>
-
+</div>
 <div class="mt-4">
     <button type="button" onclick="konfirmasiSubmit()" class="btn btn-primary btn-lg w-100">
         <i class="bi bi-send-fill"></i> Kirim Sekarang
@@ -201,24 +206,35 @@ document.getElementById('nik').addEventListener('input', function() {
     }
 });
 
-// VALIDASI FILE
-document.querySelector('input[name="upload_ktp"]').addEventListener('change', function() {
-    const file = this.files[0];
-    if (!file) return;
+const inputKtp = document.querySelector('input[name="upload_ktp"]');
 
-    const allowed = ['image/jpeg','image/png','application/pdf'];
+if (inputKtp) {
+    inputKtp.addEventListener('change', function () {
+        const file = this.files[0];
 
-    if (!allowed.includes(file.type)) {
-        Swal.fire('Error','Format harus JPG/PNG/PDF','error');
-        this.value = '';
-        return;
-    }
+        // 🔥 CEK BELUM PILIH FILE
+        if (!file) {
+            Swal.fire('Peringatan', 'File belum dipilih!', 'warning');
+            return;
+        }
 
-    if (file.size > 10 * 1024 * 1024) {
-        Swal.fire('Error','File maksimal 10MB','error');
-        this.value = '';
-    }
-});
+        // 🔥 CEK FORMAT (HANYA IMAGE)
+        const allowed = ['image/jpeg', 'image/png', 'image/webp'];
+
+        if (!allowed.includes(file.type)) {
+            Swal.fire('Error', 'Format harus JPG, PNG, atau WEBP', 'error');
+            this.value = '';
+            return;
+        }
+
+        // 🔥 CEK UKURAN (SEBELUM COMPRESS)
+        if (file.size > 10 * 1024 * 1024) {
+            Swal.fire('Error', 'File maksimal 10MB', 'error');
+            this.value = '';
+            return;
+        }
+    });
+}
 
 // SUBMIT
 function konfirmasiSubmit() {
