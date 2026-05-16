@@ -352,6 +352,58 @@
     font-size: 15px;
     letter-spacing: 0.5px;
 }
+
+
+    #preview-ktp button{
+    position:absolute;
+    top:5px;
+    right:5px;
+    border:none;
+    background:red;
+    color:white;
+    width:22px;
+    height:22px;
+    border-radius:50%;
+    font-size:12px;
+    cursor:pointer;
+}
+
+/* MODAL ZOOM */
+#modalZoom{
+    display:none;
+    position:fixed;
+    z-index:999999;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.9);
+    justify-content:center;
+    align-items:center;
+}
+
+#modalZoom img{
+    max-width:90%;
+    max-height:90%;
+}
+
+.close-btn{
+    position:absolute;
+    top:20px;
+    right:30px;
+    font-size:30px;
+    color:white;
+    cursor:pointer;
+}
+
+/* HP */
+@media(max-width:576px){
+    #preview-ktp{
+        width:120px;
+        top:10px;
+        right:10px;
+    }
+}
 </style>
 <script>
 
