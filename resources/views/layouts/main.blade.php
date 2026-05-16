@@ -359,7 +359,46 @@ main {
     transition: 0.2s;
     color: #ffffff;
 }
+@media (max-width: 991px) {
 
+    .navbar-nav .nav-link,
+    .navbar-nav .dropdown-toggle {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+
+        width: 100%;
+    }
+
+    .navbar-nav .dropdown-toggle::after {
+        margin-left: auto !important;
+        position: static !important;
+    }
+
+    /* MATIKAN SEGITIGA BAWAH DI MOBILE */
+    .navbar-nav .nav-link::after {
+        display: none !important;
+    }
+}
+
+@media (max-width: 991px) {
+
+    .navbar-nav .dropdown-toggle::after {
+        content: "\F282";
+        font-family: "bootstrap-icons";
+
+        border: none !important;
+
+        margin-left: auto;
+        font-size: 14px;
+    }
+
+    .navbar-nav .dropdown-toggle {
+        display: flex;
+        align-items: center;
+    }
+
+}
 </style>
 </head>
 <body>
