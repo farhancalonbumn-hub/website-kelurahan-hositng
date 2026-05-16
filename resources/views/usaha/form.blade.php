@@ -136,25 +136,30 @@ Pastikan berada dalam wilayah Kelurahan Sekarjaya.
     <small class="text-danger error"></small>
 </div>
 
-            <!-- Upload -->
-            <div class="col-md-6">
-                <label>Upload KTP</label>
-<input type="file" name="upload_ktp" class="form-control" accept="image/png, image/jpeg">
+        <!-- Upload -->
+<div class="col-md-6">
+    <label class="fw-semibold">Upload KTP <span class="text-danger">*</span></label>
 
-<small class="text-muted">
-Digunakan untuk verifikasi domisili. Format JPG/PNG maksimal 2MB.
-</small>
+    <input type="file"
+        name="upload_ktp"
+        class="form-control"
+        accept="image/png, image/jpeg, image/webp"
+        required>
 
-<small class="text-muted d-block">
-Pastikan KTP terlihat jelas dan alamat terbaca.
-</small>
+    <small class="text-muted">
+        Digunakan untuk verifikasi domisili. Format JPG/PNG/WEBP.
+    </small>
 
-<small class="text-muted d-block">
-Data akan diverifikasi oleh admin sebelum diproses.
-</small>
-            </div>
+    <small class="text-muted d-block">
+        Pastikan KTP terlihat jelas dan alamat terbaca.
+    </small>
 
-        </div>
+    <small class="text-muted d-block">
+        Data akan diverifikasi oleh admin sebelum diproses.
+    </small>
+</div>
+            
+</div>
 
         <div class="text-center mt-4">
             <button type="button" onclick="konfirmasiSubmit()" class="btn-keren">
@@ -242,6 +247,72 @@ document.getElementById('nik').addEventListener('input', function() {
         error.innerText = "";
     }
 });
+
+    const inputKtp = document.querySelector('input[name="upload_ktp"]');
+
+if (inputKtp) {
+    inputKtp.addEventListener('change', function () {
+        const file = this.files[0];
+
+        if (!file) {
+            Swal.fire('Peringatan', 'KTP wajib diupload!', 'warning');
+            return;
+        }
+
+        if (!file.type.startsWith('image/')) {
+            Swal.fire('Error', 'Hanya file gambar (JPG/PNG/WEBP)', 'error');
+            this.value = '';
+            return;
+        }
+    });
+}
+
+    const inputKtpCompress = document.querySelector('input[name="upload_ktp"]');
+
+if (inputKtpCompress) {
+    inputKtpCompress.addEventListener('change', function () {
+        const file = this.files[0];
+        if (!file) return;
+
+        if (!file.type.startsWith('image/')) return;
+
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            const img = new Image();
+            img.src = e.target.result;
+
+            img.onload = function () {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+
+                const maxWidth = 1000;
+                const scale = maxWidth / img.width;
+
+                canvas.width = maxWidth;
+                canvas.height = img.height * scale;
+
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                canvas.toBlob(function (blob) {
+                    if (!blob) return;
+
+                    const compressedFile = new File([blob], file.name, {
+                        type: 'image/jpeg',
+                        lastModified: Date.now()
+                    });
+
+                    const dt = new DataTransfer();
+                    dt.items.add(compressedFile);
+                    inputKtpCompress.files = dt.files;
+
+                }, 'image/jpeg', 0.7);
+            };
+        };
+
+        reader.readAsDataURL(file);
+    });
+}
 
 function konfirmasiSubmit() {
 
