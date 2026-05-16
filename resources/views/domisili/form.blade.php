@@ -159,37 +159,61 @@ Isi alamat tempat tinggal saat ini (wilayah kelurahan). KTP digunakan untuk veri
 </div>
 
     <!-- Upload -->
-    <div class="col-12">
-        <label class="mb-1 fw-semibold">
-            <i class="bi bi-upload"></i> Upload KTP 
-        </label>
-        <input type="file" name="upload_ktp" class="form-control" accept="image/png, image/jpeg">
-        <small class="text-muted">
-Digunakan untuk verifikasi domisili. Format JPG/PNG maksimal 10MB.
-</small>
-<small class="text-muted d-block mt-1">
-Pastikan KTP terlihat jelas dan sesuai alamat domisili
-</small>
-    </div>
+<div class="col-12">
+    <label class="mb-1 fw-semibold">
+        <i class="bi bi-upload"></i> Upload KTP
+    </label>
+
+    <input type="file"
+           name="upload_ktp"
+           class="form-control @error('upload_ktp') is-invalid @enderror"
+           accept="image/png, image/jpeg">
+
+    @error('upload_ktp')
+        <div class="invalid-feedback">
+            {{ $message }}
+        </div>
+    @enderror
+
+    <small class="text-muted">
+        Digunakan untuk verifikasi domisili. Format JPG/PNG maksimal 2MB.
+    </small>
+
+    <small class="text-muted d-block mt-1">
+        Pastikan KTP terlihat jelas dan sesuai alamat domisili 
+    </small>
+</div>
 
 </div>
 
 <!-- Upload Pengantar RT/RW -->
 <div class="col-12 mt-3">
     <label class="mb-1 fw-semibold">
-        <i class="bi bi-folder2-open"></i> Upload Surat Pengantar RT/RW <span class="text-danger">*</span>
+        <i class="bi bi-folder2-open"></i> Upload Surat Pengantar RT/RW
+        <span class="text-danger">*</span>
     </label>
-    <input type="file" name="pengantar_rt_rw" class="form-control" accept=".pdf,image/png,image/jpeg" required>
+
+    <input type="file"
+           name="pengantar_rt_rw"
+           class="form-control @error('pengantar_rt_rw') is-invalid @enderror"
+           accept=".pdf,image/png,image/jpeg"
+           required>
+
+    @error('pengantar_rt_rw')
+        <div class="invalid-feedback">
+            {{ $message }}
+        </div>
+    @enderror
 
     <small class="text-muted">
-        Wajib diunggah sebagai syarat pengajuan Surat Domisili.
+        Wajib diunggah sebagai syarat awal pengajuan Surat Domisili.
     </small>
 
     <small class="text-muted d-block mt-1">
-        Dapat berupa hasil scan atau foto surat pengantar dari RT/RW (PDF/JPG/PNG, maks 2MB).
+        Dapat berupa hasil scan atau foto surat pengantar dari RT/RW
+        (PDF/JPG/PNG, maks 3MB).
     </small>
 </div>
-
 <div class="mt-4">
     <button type="button" onclick="konfirmasiSubmit()" class="btn btn-success btn-lg w-100 btn-modern">
         <i class="bi bi-send-fill"></i> Kirim Sekarang
@@ -279,10 +303,10 @@ if (inputKtp) {
                 return;
             }
 
-            if (file.size > 10 * 1024 * 1024) {
-                Swal.fire('Error','Max 10MB','error');
-                this.value = '';
-            }
+if (file.size > 3 * 1024 * 1024) {
+    Swal.fire('Upload Gagal','Ukuran file maksimal 3MB','error');
+    this.value = '';
+}
         }
     });
 }
@@ -360,5 +384,18 @@ Swal.fire({
 </script>
 
 @endif
-
+@if($errors->any())
+<script>
+Swal.fire({
+    title: 'Upload Gagal!',
+    html: `
+        @foreach ($errors->all() as $error)
+            <div>{{ $error }}</div>
+        @endforeach
+    `,
+    icon: 'error',
+    confirmButtonText: 'OK'
+});
+</script>
+@endif
 @endsection
