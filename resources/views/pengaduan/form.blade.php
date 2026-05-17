@@ -99,7 +99,7 @@
             value="{{ old('rt') }}"
             min="1"
             required>
-        <div class="invalid-feedback">RT wajib diisi.</div>
+        <div class="invalid-feedback">RT Wajib Diisi.</div>
     </div>
 
     <!-- RW -->
