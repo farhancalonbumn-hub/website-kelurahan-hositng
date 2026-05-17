@@ -34,8 +34,6 @@ public function login(Request $request)
 
     dd($attempt);
 }
-    return back()->with('error', 'Username atau password salah');
-}
     public function dashboard()
     {
         $total =
