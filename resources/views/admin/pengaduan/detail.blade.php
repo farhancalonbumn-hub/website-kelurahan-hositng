@@ -26,13 +26,13 @@
             <!-- FOTO (KECIL + TOMBOL) -->
             @if($data->foto)
             <div class="mb-4 text-center">
-                <img src="{{ asset('storage/' . $data->foto) }}"
+               <img src="{{ asset('pengaduan_foto/' . $data->foto) }}"
                      class="img-thumbnail mb-2"
                      style="max-width:200px;">
 
                 <br>
 
-                <button onclick="zoomImage('{{ asset('storage/' . $data->foto) }}')" 
+               <button onclick="zoomImage('{{ asset('pengaduan_foto/' . $data->foto) }}')" 
                         class="btn btn-sm btn-outline-dark">
                     🔍 Lihat Foto
                 </button>
