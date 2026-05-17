@@ -24,7 +24,7 @@ public function login(Request $request)
 {
     $admin = \App\Models\Admin::where('username', 'admin')->first();
 
-    dd($admin);
+    dd(\Hash::check('password', $admin->password));
 }
     public function dashboard()
     {
