@@ -30,7 +30,14 @@ class PengaduanController extends Controller
         ]);
 
 if ($request->hasFile('foto')) {
-    $validated['foto'] = $request->file('foto')->store('pengaduan', 'public');
+
+    $file = $request->file('foto');
+
+    $namaFile = time() . '_' . $file->getClientOriginalName();
+
+    $file->move(public_path('pengaduan_foto'), $namaFile);
+
+    $validated['foto'] = $namaFile;
 }
 
         // Gunakan jenis_pengaduan langsung, jika 'lainnya' pakai isi input lainnya
