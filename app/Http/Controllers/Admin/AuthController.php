@@ -27,14 +27,13 @@ public function login(Request $request)
         'password' => 'required'
     ]);
 
-    if (Auth::guard('admin')->attempt([
+    $attempt = Auth::guard('admin')->attempt([
         'username' => $request->username,
         'password' => $request->password
-    ])) {
-        $request->session()->regenerate();
-        return redirect('/admin/dashboard');
-    }
+    ]);
 
+    dd($attempt);
+}
     return back()->with('error', 'Username atau password salah');
 }
     public function dashboard()
