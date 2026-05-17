@@ -352,6 +352,13 @@
         transform: translateY(0);
     }
 }
+.notif-footer {
+    position: sticky;
+    bottom: 0;
+    background: white;
+    z-index: 20;
+}
+        
     </style>
 </head>
 
@@ -510,7 +517,12 @@
 @endforelse
 
 </div>
-<div class="p-2 border-top bg-light">
+<div id="notifList" class="notif-list">
+   ...
+</div>
+
+<!-- FOOTER FIX -->
+<div class="notif-footer border-top bg-light p-2">
     <a href="{{ route('admin.notif.all') }}"
        class="btn btn-success btn-sm w-100">
         <i class="bi bi-bell"></i> Lihat Semua Notifikasi
