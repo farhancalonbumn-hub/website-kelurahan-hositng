@@ -249,7 +249,25 @@
     overflow: hidden;
     animation: fadeIn 0.2s ease;
 }
+@media (max-width: 768px) {
 
+    .notif-dropdown {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+        width: 100%;
+        height: 100vh;
+
+        max-width: none;
+        border-radius: 0;
+
+        z-index: 9999;
+    }
+
+}
 /* HEADER */
 .notif-header {
     padding: 14px 16px;
@@ -427,11 +445,14 @@
         <div id="notifDropdown" class="notif-dropdown">
 
     <!-- HEADER -->
-    <div class="notif-header d-flex justify-content-between align-items-center">
-        <b>Notifikasi</b>
-        <small style="cursor:pointer;">Tandai semua</small>
-    </div>
+<div class="notif-header d-flex justify-content-between align-items-center">
+    <b>Notifikasi</b>
 
+    <!-- tombol close semua device -->
+    <i class="bi bi-x-lg"
+       onclick="toggleNotif()"
+       style="cursor:pointer;"></i>
+</div>
     <!-- TAB -->
     <div class="notif-tabs">
         <button class="active" onclick="setFilter('hari', this)">Hari Ini</button>
