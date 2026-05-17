@@ -22,17 +22,9 @@ class AuthController extends Controller
 
 public function login(Request $request)
 {
-    $request->validate([
-        'username' => 'required',
-        'password' => 'required'
-    ]);
+    $admin = \App\Models\Admin::where('username', 'admin')->first();
 
-    $attempt = Auth::guard('admin')->attempt([
-        'username' => $request->username,
-        'password' => $request->password
-    ]);
-
-    dd($attempt);
+    dd($admin);
 }
     public function dashboard()
     {
