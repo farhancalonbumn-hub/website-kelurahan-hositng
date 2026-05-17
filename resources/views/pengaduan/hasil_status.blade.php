@@ -58,7 +58,7 @@
                 @if($item->foto)
                 <div class="full">
                     <b>Foto</b><br>
-                    <a href="{{ asset($item->foto) }}" target="_blank" class="link-foto">
+                    <a href="{{ asset('pengaduan_foto/' . $item->foto) }}" target="_blank" class="link-foto">
                         Lihat Foto
                     </a>
                 </div>
