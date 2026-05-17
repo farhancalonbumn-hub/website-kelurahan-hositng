@@ -248,33 +248,25 @@ document.getElementById('nik').addEventListener('input', function() {
     }
 });
 
-    const inputKtp = document.querySelector('input[name="upload_ktp"]');
+   const inputKtp = document.querySelector('input[name="upload_ktp"]');
 
 if (inputKtp) {
     inputKtp.addEventListener('change', function () {
         const file = this.files[0];
+        if (!file) return;
 
-        if (!file) {
-            Swal.fire('Peringatan', 'KTP wajib diupload!', 'warning');
-            return;
-        }
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
 
-        if (!file.type.startsWith('image/')) {
-            Swal.fire('Error', 'Hanya file gambar (JPG/PNG/WEBP)', 'error');
+        if (!allowedTypes.includes(file.type)) {
+            Swal.fire('Error', 'Format harus JPG, PNG, atau WEBP', 'error');
             this.value = '';
             return;
         }
-    });
-}
 
-    const inputKtpCompress = document.querySelector('input[name="upload_ktp"]');
-
-if (inputKtpCompress) {
-    inputKtpCompress.addEventListener('change', function () {
-        const file = this.files[0];
-        if (!file) return;
-
-        if (!file.type.startsWith('image/')) return;
+        // kalau file kecil, langsung pakai (biar cepat)
+        if (file.size < 800 * 1024) {
+            return;
+        }
 
         const reader = new FileReader();
 
@@ -297,23 +289,33 @@ if (inputKtpCompress) {
                 canvas.toBlob(function (blob) {
                     if (!blob) return;
 
-                    const compressedFile = new File([blob], file.name, {
-                        type: 'image/jpeg',
-                        lastModified: Date.now()
-                    });
-
-                    const dt = new DataTransfer();
-                    dt.items.add(compressedFile);
-                    inputKtpCompress.files = dt.files;
+                    // kalau masih besar, turunin kualitas
+                    if (blob.size > 900 * 1024) {
+                        canvas.toBlob(function (blob2) {
+                            setFile(blob2);
+                        }, 'image/jpeg', 0.5);
+                    } else {
+                        setFile(blob);
+                    }
 
                 }, 'image/jpeg', 0.7);
             };
         };
 
         reader.readAsDataURL(file);
+
+        function setFile(blob) {
+            const compressedFile = new File([blob], file.name, {
+                type: 'image/jpeg',
+                lastModified: Date.now()
+            });
+
+            const dt = new DataTransfer();
+            dt.items.add(compressedFile);
+            inputKtp.files = dt.files;
+        }
     });
 }
-
 function konfirmasiSubmit() {
 
     let valid = true;
