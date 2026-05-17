@@ -250,6 +250,23 @@
 .notif-card{
     max-width: 100%;
 }    
+
+.pagination {
+    font-size: 13px;
+}
+
+.pagination .page-link {
+    padding: 6px 10px;
+    font-size: 13px;
+    border-radius: 8px !important;
+}
+
+/* ini yang biasanya bikin icon previous/next gede */
+.pagination svg {
+    width: 16px !important;
+    height: 16px !important;
+}
+    
 </style>
 
 <div class="container-fluid notif-wrapper">
@@ -362,7 +379,7 @@
 
             <!-- PAGINATION -->
             <div class="mt-4">
-                {{ $allNotifs->links() }}
+                {{ $allNotifs->links('pagination::bootstrap-5') }}
             </div>
 
         </div>
