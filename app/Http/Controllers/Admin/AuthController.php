@@ -22,24 +22,17 @@ class AuthController extends Controller
 
 public function login(Request $request)
 {
-    $request->validate([
-        'username' => 'required',
-        'password' => 'required'
-    ]);
+    $admin = \App\Models\Admin::where('username', $request->username)->first();
 
-    if (Auth::guard('admin')->attempt([
-        'username' => $request->username,
-        'password' => $request->password
-    ])) {
+    if ($admin && $request->password == $admin->password) {
 
-        $request->session()->regenerate();
+        Auth::guard('admin')->login($admin);
 
         return redirect('/admin/dashboard');
     }
 
     return back()->with('error', 'Username atau password salah');
 }
-
     
     public function dashboard()
     {
