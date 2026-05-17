@@ -242,6 +242,14 @@
     }
 
 }
+
+.container-fluid.notif-wrapper{
+    padding: 0 !important;
+}
+
+.notif-card{
+    max-width: 100%;
+}    
 </style>
 
 <div class="container-fluid notif-wrapper">
