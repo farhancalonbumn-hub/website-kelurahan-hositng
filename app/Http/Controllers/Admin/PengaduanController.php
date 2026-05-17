@@ -153,7 +153,12 @@ public function hapus($id)
     $data = Pengaduan::findOrFail($id);
 
     if ($data->foto) {
-        Storage::delete('public/' . $data->foto);
+
+        $path = public_path('pengaduan_foto/' . $data->foto);
+
+        if (file_exists($path)) {
+            unlink($path);
+        }
     }
 
     $data->delete();
