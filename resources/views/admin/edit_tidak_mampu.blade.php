@@ -428,11 +428,6 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('nomor_surat').value = hasil;
         if (preview) preview.innerText = hasil;
 
-        // 🔥 SIMPAN KE LOCALSTORAGE
-        let id = "{{ $surat->id }}";
-        localStorage.setItem("nomor_surat_" + id, hasil);
-        localStorage.setItem("nomor_urut_" + id, val);
-
     });
 
 });
@@ -441,26 +436,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // =========================
 // LOAD SAAT REFRESH
 // =========================
-document.addEventListener("DOMContentLoaded", function () {
 
-    let id = "{{ $surat->id }}";
-
-    let savedNomor = localStorage.getItem("nomor_surat_" + id);
-    let savedUrut = localStorage.getItem("nomor_urut_" + id);
-
-    let preview = document.getElementById("preview_nomor");
-    let input = document.getElementById("nomor_manual");
-
-    if (savedNomor && preview) {
-        preview.innerText = savedNomor;
-        document.getElementById('nomor_surat').value = savedNomor;
-    }
-
-    if (savedUrut && input) {
-        input.value = savedUrut;
-    }
-
-});
 
 
 // =========================
