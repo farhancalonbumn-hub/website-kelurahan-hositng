@@ -91,30 +91,34 @@ public function login(Request $request)
     }
 
     public function updateProfile(Request $request)
-    {
-        $admin = Auth::guard('admin')->user();
+{
+    $admin = Auth::guard('admin')->user();
 
-        $request->validate([
-            'username' => 'required|max:255',
-            'old_password' => 'nullable',
-            'password' => 'nullable|min:6|confirmed',
-        ]);
+    $request->validate([
+        'username' => 'required|max:255',
+        'old_password' => 'nullable',
+        'password' => 'nullable|min:6|confirmed',
+    ]);
 
-        $admin->username = $request->username;
+    $admin->username = $request->username;
 
-        if ($request->password) {
-            if (!Hash::check($request->old_password, $admin->password)) {
-                return back()->with('error', 'Password lama salah');
-            }
+    // kalau mau ganti password
+    if ($request->password) {
 
-            $admin->password = Hash::make($request->password);
+        // cek password lama (plain text)
+        if ($request->old_password != $admin->password) {
+            return back()->with('error', 'Password lama salah');
         }
 
-        $admin->save();
-
-        return back()->with('success', 'Akun berhasil diperbarui');
+        // simpan langsung (tanpa hash)
+        $admin->password = $request->password;
     }
 
+    $admin->save();
+
+    return back()->with('success', 'Akun berhasil diperbarui');
+}
+    
     public function logout(Request $request)
     {
         Auth::guard('admin')->logout();
