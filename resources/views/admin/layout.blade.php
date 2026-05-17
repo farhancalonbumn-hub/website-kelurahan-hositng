@@ -358,6 +358,11 @@
     background: white;
     z-index: 20;
 }
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 1050;
+}
         
     </style>
 </head>
