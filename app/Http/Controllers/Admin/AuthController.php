@@ -22,16 +22,20 @@ class AuthController extends Controller
 
 public function login(Request $request)
 {
-    $admin = Admin::first();
+    $request->validate([
+        'username' => 'required',
+        'password' => 'required'
+    ]);
 
-    if (!$admin) {
-        return back()->with('error', 'Admin belum ada di database');
+    if (Auth::guard('admin')->attempt([
+        'username' => $request->username,
+        'password' => $request->password
+    ])) {
+        $request->session()->regenerate();
+        return redirect('/admin/dashboard');
     }
 
-    Auth::guard('admin')->login($admin);
-    $request->session()->regenerate();
-
-    return redirect('/admin/dashboard');
+    return back()->with('error', 'Username atau password salah');
 }
     public function dashboard()
     {
