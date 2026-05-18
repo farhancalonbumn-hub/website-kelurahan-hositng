@@ -422,7 +422,7 @@ if ($surat->no_wa) {
             'Authorization' => env('FONNTE_TOKEN')
         ])->post('https://api.fonnte.com/send', [
             'target' => $no,
-            'message' => "Yth. {$surat->nama},\n\nKami informasikan bahwa status pengajuan surat Anda telah selesai diproses.\n\nSilakan cek informasi persyaratan dan jadwal pengambilan surat melalui link berikut:\nhttps://website-kelurahan-hositng-production-acd9.up.railway.app/cek-status\n\nHarap datang sesuai jadwal yang telah ditentukan.\nTerima kasih."
+            'message' => "Yth. {$surat->nama},\n\nKami informasikan bahwa status pengajuan surat Anda telah selesai diproses.\n\nSilakan cek informasi persyaratan dan jadwal pengambilan surat melalui link berikut:\nhttps://website-kelurahan-hositng-production.up.railway.app/cek-status\n\nHarap datang sesuai jadwal yang telah ditentukan.\nTerima kasih."
         ]);
 
         // DEBUG PENTING
