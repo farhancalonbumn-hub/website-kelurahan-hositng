@@ -221,9 +221,10 @@ document.getElementById('searchInput').addEventListener('keypress', function(e) 
 });
 
 function konfirmasiProses(id) {
+
     Swal.fire({
-        title: 'Yakin?',
-        text: "Pengaduan akan diproses!",
+        title: 'YaProses Pengaduankin?',
+        text: "Pengaduan akan masuk ke tahap proses.!",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Ya',
@@ -235,19 +236,31 @@ function konfirmasiProses(id) {
             fetch('/admin/pengaduan/proses/' + id, {
                 method: 'POST',
                 headers: {
-                    'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value,
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
                     'Accept': 'application/json'
                 }
             })
-            .then(() => {
-                location.reload();
+            .then(response => response.json())
+            .then(data => {
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: 'Pengaduan masuk ke tahap proses',
+                    confirmButtonText: 'Lihat Detail'
+                }).then(() => {
+
+                    window.location.href =
+                        '/admin/pengaduan/detail/' + id;
+
+                });
+
             });
 
         }
 
     });
 }
-
 function konfirmasiHapus(e) {
     e.preventDefault();
 
