@@ -272,6 +272,128 @@ document.getElementById('jenis_pengaduan').addEventListener('change', function (
     }
 });
 
+
+const inputFoto = document.querySelector('input[name="foto"]');
+
+if (inputFoto) {
+
+    inputFoto.addEventListener('change', function () {
+
+        const file = this.files[0];
+
+        if (!file) return;
+
+        const allowedTypes = [
+            'image/jpeg',
+            'image/png',
+            'image/webp'
+        ];
+
+        // VALIDASI FORMAT
+        if (!allowedTypes.includes(file.type)) {
+
+            Swal.fire(
+                'Error',
+                'Format harus JPG, PNG, atau WEBP',
+                'error'
+            );
+
+            this.value = '';
+            return;
+        }
+
+        // VALIDASI MAX 10MB
+        if (file.size > 10 * 1024 * 1024) {
+
+            Swal.fire(
+                'Error',
+                'Ukuran foto maksimal 10MB',
+                'error'
+            );
+
+            this.value = '';
+            return;
+        }
+
+        // =========================
+        // AUTO COMPRESS
+        // =========================
+
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+
+            const img = new Image();
+
+            img.src = e.target.result;
+
+            img.onload = function () {
+
+                const canvas = document.createElement('canvas');
+
+                const ctx = canvas.getContext('2d');
+
+                // resize aman untuk HP
+                const maxWidth = 800;
+
+                const scale = maxWidth / img.width;
+
+                canvas.width = maxWidth;
+
+                canvas.height = img.height * scale;
+
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                // compress pertama
+                canvas.toBlob(function (blob) {
+
+                    if (!blob) return;
+
+                    // kalau masih besar compress lagi
+                    if (blob.size > 900 * 1024) {
+
+                        canvas.toBlob(function (blob2) {
+
+                            setCompressedFile(blob2);
+
+                        }, 'image/jpeg', 0.5);
+
+                    } else {
+
+                        setCompressedFile(blob);
+
+                    }
+
+                }, 'image/jpeg', 0.7);
+            };
+        };
+
+        reader.readAsDataURL(file);
+
+        // SET FILE BARU
+        function setCompressedFile(blob) {
+
+            const compressedFile = new File(
+                [blob],
+                file.name,
+                {
+                    type: 'image/jpeg',
+                    lastModified: Date.now()
+                }
+            );
+
+            const dt = new DataTransfer();
+
+            dt.items.add(compressedFile);
+
+            inputFoto.files = dt.files;
+        }
+
+    });
+
+}
+
+   
 // auto angka NIK
 document.getElementById('nik').addEventListener('input', function() {
     this.value = this.value.replace(/[^0-9]/g, '').slice(0,16);
