@@ -25,7 +25,7 @@ class PengaduanController extends Controller
             'rt' => 'nullable|string|max:5',
             'rw' => 'nullable|string|max:5',
             'keterangan' => 'required|string',
-            'foto' => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:10240',
             'lainnya' => 'nullable|string|max:255', // tetap untuk input "lainnya" tapi nanti cuma dipakai untuk jenis_pengaduan
         ]);
 
